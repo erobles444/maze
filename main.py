@@ -1,6 +1,7 @@
 import pygame
 
 pygame.init()
+pygame.font.init()
 
 screen = pygame.display.set_mode((1200, 800))
 
@@ -12,13 +13,15 @@ walls = []
 #player stats
 x = 50
 y = 775
-size = 20
+size = 18
 speeds = 4
 color = (255, 255, 255)
 
 #clock
 clock = pygame.time.Clock()
 time = pygame.time.get_ticks()
+finalTime = 0
+startTime = 0
 
 def initWalls():
     walls.append(pygame.Rect(0, 0, 30, 800))
@@ -42,7 +45,28 @@ def initWalls():
     walls.append(pygame.Rect(1120, 187, 100, 30))
     walls.append(pygame.Rect(1060, 120, 115, 30))
     walls.append(pygame.Rect(1100, 40, 140, 30))
-
+    walls.append(pygame.Rect(970, 0, 30, 400))
+    walls.append(pygame.Rect(950, 430, 100, 30))
+    walls.append(pygame.Rect(900, 370, 70, 30))
+    walls.append(pygame.Rect(880, 370, 30, 145))
+    walls.append(pygame.Rect(880, 490, 120, 30))
+    walls.append(pygame.Rect(880, 550, 180, 30))
+    walls.append(pygame.Rect(700, 490, 200, 30))
+    walls.append(pygame.Rect(700, 490, 30, 200))
+    walls.append(pygame.Rect(630, 550, 30, 175))
+    walls.append(pygame.Rect(580, 490, 200, 30))
+    walls.append(pygame.Rect(560, 490, 30, 200))
+    walls.append(pygame.Rect(490, 550, 30, 175))
+    walls.append(pygame.Rect(450, 490, 200, 30))
+    walls.append(pygame.Rect(420, 490, 30, 200))
+    walls.append(pygame.Rect(350, 550, 30, 175))
+    walls.append(pygame.Rect(300, 490, 200, 30))
+    walls.append(pygame.Rect(280, 490, 30, 200))
+    walls.append(pygame.Rect(280, 370, 600, 30))
+    walls.append(pygame.Rect(220, 430, 625, 30))
+    walls.append(pygame.Rect(280, 30, 30, 350))
+    walls.append(pygame.Rect(280, 30, 650, 30))
+    walls.append(pygame.Rect(900, 30, 30, 300))
 
 def movePlayer():
     global x
