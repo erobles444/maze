@@ -20,6 +20,7 @@ color = (255, 255, 255)
 #clock
 clock = pygame.time.Clock()
 time = pygame.time.get_ticks()
+font = pygame.font.SysFont('Verdana', 20)
 finalTime = 0
 startTime = 0
 
@@ -67,6 +68,11 @@ def initWalls():
     walls.append(pygame.Rect(280, 30, 30, 350))
     walls.append(pygame.Rect(280, 30, 650, 30))
     walls.append(pygame.Rect(900, 30, 30, 300))
+    walls.append(pygame.Rect(350, 300, 550, 30))
+    walls.append(pygame.Rect(350, 100, 30, 200))
+    walls.append(pygame.Rect(350, 100, 500, 30))
+    walls.append(pygame.Rect(830, 100, 30, 160))
+    walls.append(pygame.Rect(420, 230, 420, 30))
 
 def movePlayer():
     global x
@@ -91,20 +97,33 @@ def movePlayer():
 
 def draw():
     pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(0, 0, 1200, 800), 0)
+
+    pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(370, 100, 470, 130), 0)
+
     pygame.draw.rect(screen, color, pygame.Rect(x, y, size, size), 0)
+
+    textScreen = font.render("Time " + str((pygame.time.get_ticks()-startTime)/1000), False, (255, 255, 255))
+    screen.blit(textScreen, (1115, 775))
 
     for w in walls:
         pygame.draw.rect(screen, (255, 0, 0), w, 0)
+
+
 initWalls()
 
 def checkCollision():
     global walls
     global x
     global y
+    global startTime
     for w in walls:
         if w.colliderect(pygame.Rect(x, y, size, size)):
             x = 50
             y = 775
+            startTime = pygame.time.get_ticks()
+
+
+
 
 
 
