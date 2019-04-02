@@ -6,9 +6,14 @@ pygame.font.init()
 screen = pygame.display.set_mode((1200, 800))
 
 gameCheck = "active"
-over = False
+end = False
 
 walls = []
+
+endrect = pygame.Rect(370, 100, 470, 130)
+
+finalTime = 0
+
 
 #player stats
 x = 50
@@ -21,7 +26,6 @@ color = (255, 255, 255)
 clock = pygame.time.Clock()
 time = pygame.time.get_ticks()
 font = pygame.font.SysFont('Verdana', 20)
-finalTime = 0
 startTime = 0
 
 def initWalls():
@@ -39,11 +43,11 @@ def initWalls():
     walls.append(pygame.Rect(1060, 700, 100, 30))
     walls.append(pygame.Rect(1120, 600, 100, 30))
     walls.append(pygame.Rect(1060, 525, 100, 30))
-    walls.append(pygame.Rect(1120, 450, 100, 30))
+    walls.append(pygame.Rect(1120, 460, 100, 30))
     walls.append(pygame.Rect(1060, 390, 100, 30))
     walls.append(pygame.Rect(1120, 320, 100, 30))
     walls.append(pygame.Rect(1060, 250, 115, 30))
-    walls.append(pygame.Rect(1120, 187, 100, 30))
+    walls.append(pygame.Rect(1120, 185, 100, 30))
     walls.append(pygame.Rect(1060, 120, 115, 30))
     walls.append(pygame.Rect(1100, 40, 140, 30))
     walls.append(pygame.Rect(970, 0, 30, 400))
@@ -115,31 +119,62 @@ def checkCollision():
     global walls
     global x
     global y
+    global gameCheck
     global startTime
+    global finalTime
+    global end
     for w in walls:
         if w.colliderect(pygame.Rect(x, y, size, size)):
             x = 50
             y = 775
             startTime = pygame.time.get_ticks()
 
+    if endrect.colliderect(pygame.Rect(x, y, size, size)):
+        gameCheck = "win"
+        finalTime = pygame.time.get_ticks() - startTime
+
+def drawWin():
+    pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(0, 0, 1200, 800), 0)
+
+    textScreen = font.render("You Win! Your Time was:  " + str(finalTime/1000), False, (255, 255, 255))
+    screen.blit(textScreen, (367, 200))
+
+    textScreen = font.render("seconds", False, (255, 255, 255))
+    screen.blit(textScreen, (680, 200))
+
+    textScreen = font.render("Press Spacebar to play again", False, (255, 255, 255))
+    screen.blit(textScreen, (367, 400))
+
+def gameReset():
+    global startTime
+    global walls
+    global x
+    global y
+    walls = []
+    initWalls()
+    x = 50
+    y = 775
+    startTime = pygame.time.get_ticks()
 
 
 
-
-
-
-while not over:
+while not end:
     clock.tick(60)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            over = True
+            end = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                if gameCheck == "win":
+                    gameReset()
+                    gameCheck = "active"
 
     if gameCheck == "active":
         draw()
         checkCollision()
         movePlayer()
-
-
+    elif gameCheck == "win":
+        drawWin()
 
     pygame.display.flip()
